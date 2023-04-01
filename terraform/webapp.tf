@@ -11,9 +11,7 @@ resource "azurerm_linux_web_app" "web_app" {
   resource_group_name = azurerm_resource_group.baseRG.name
   location            = azurerm_resource_group.baseRG.location
 
-  storage_account_name       = azurerm_storage_account.storage_account.name
-  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
-  service_plan_id            = azurerm_service_plan.asp.id
+  service_plan_id     = azurerm_service_plan.asp.id
 
   app_settings = {
   }

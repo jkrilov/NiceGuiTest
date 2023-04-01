@@ -1,6 +1,6 @@
-# TerraformAzureActionTemplate
+# NiceGUI Test
 
-This repo will have some basic folder structure and a GitHub action for deploying Terraform IaC to Azure.  It will serve as a template for future projects/lab work. 
+Testting the NiceGUI for Python.  Running on an Azure Web App deployed with GitHub Actions.
 
 ## Azure Integration
 
