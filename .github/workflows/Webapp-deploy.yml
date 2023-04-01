@@ -4,10 +4,10 @@ on:
     - main
 
 env:
-  pythonVer: 3.10
+  pythonVer: '3.10'
   workingDir: ./nicegui
-  webAppName: "NiceGuiTest-APP" # set this to your application's name
-  startupCmd: ""
+  webAppName: 'NiceGuiTest-APP' # set this to your application's name
+  startupCmd: ''
 
 jobs:
   build-and-deploy:
