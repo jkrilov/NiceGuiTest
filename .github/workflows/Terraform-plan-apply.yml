@@ -1,0 +1,205 @@
+name: 'Terraform Plan/Apply'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - '*'
+
+#These environment variables are used by the terraform azure provider
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  workingDir: "./terraform"
+  tfVer: 1.3.9
+  tfLintVer: "v0.44.1"
+
+jobs:
+  tflint:
+    name: "TFLint"
+    runs-on: ubuntu-latest
+    outputs:
+      tfLintExitCode: ${{ steps.tflint.outputs.exitcode }}
+
+    steps:
+    - uses: actions/checkout@v3
+      name: Checkout source code
+
+    - name: TFLint PR Comments
+      id: tflintpr
+      uses: reviewdog/action-tflint@master
+      with:
+        github_token: ${{ secrets.github_token }}
+        working_directory: ${{env.workingDir}}
+        #tflint_rulesets: "azurerm"
+        tflint_init: true
+        filter_mode: "nofilter"
+        # reporter: github-pr-review
+
+  terraform-plan:
+    name: 'Terraform Plan'
+    needs: tflint
+    runs-on: ubuntu-latest
+    permissions: 
+      issues: read
+      contents: read
+      pull-requests: write
+    env:
+      #this is needed since we are running terraform with read-only permissions
+      ARM_SKIP_PROVIDER_REGISTRATION: true
+    outputs:
+      tfplanExitCode: ${{ steps.plan.outputs.exitcode }}
+      tfplanOutcome: ${{ steps.plan.outputs.outcome }}
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of the Terraform CLI
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: true
+        terraform_version: ${{env.tfVer}}
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check -diff
+      continue-on-error: true
+      working-directory: ${{env.workingDir}}
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      working-directory: ${{env.workingDir}}
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+
+    # Generates an execution plan for Terraform
+    # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -input=false -no-color -out=tfplan -detailed-exitcode
+      working-directory: ${{env.workingDir}}
+
+    - name: PR Comment
+      id: comment
+      uses: actions/github-script@v6
+      if: github.event_name == 'pull_request' || failure() && github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          // 1. Retrieve existing bot comments for the PR
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          })
+          const botComment = comments.find(comment => {
+            return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
+          })
+
+          // 2. Prepare format of the comment
+          const output = `
+          #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          <details><summary>Format Output</summary>
+
+          \`\`\`\n
+          ${{ steps.fmt.outputs.stdout }}
+          \`\`\`
+
+          </details>
+
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+
+          </details>
+
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;   
+
+          // 3. If we have a comment, update it, otherwise create a new one
+          if (botComment) {
+            github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: output
+            })
+          } else {
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+          }
+
+    - name: Terraform Plan Status
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+            
+    # Save plan to artifacts  
+    - name: Publish Terraform Plan
+      uses: actions/upload-artifact@v3
+      with:
+        name: tfplan
+        path: ${{env.workingDir}}/tfplan
+
+  terraform-apply:
+    name: 'Terraform Apply'
+    needs: [ terraform-plan, tflint ]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && needs.terraform-plan.outputs.tfplanExitCode == 2 }}
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: tfplan
+        path: ${{env.workingDir}}
+
+    # Install the latest version of the Terraform CLI
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: true
+        terraform_version: ${{env.tfVer}}
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      working-directory: ${{env.workingDir}}
+
+    # Apply the Terraform configuration
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply tfplan
+      working-directory: ${{env.workingDir}}
