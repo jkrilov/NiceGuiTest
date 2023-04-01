@@ -32,7 +32,7 @@ jobs:
       uses: azure/appservice-build@v2
       with:
         source-directory: ${{ env.workingDir }}
-        output-directory: /tmp/webapp
+        #output-directory: /tmp/webapp
 
     - uses: Azure/login@v1
       with:
@@ -47,5 +47,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.webAppName }}
-        package: /tmp/webapp
+        #package: /tmp/webapp
         #startup-command: ${{ env.startupCmd }} 
