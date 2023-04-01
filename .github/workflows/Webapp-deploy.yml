@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+    - main
+
+env:
+  pythonVer: 3.10
+  workingDir: ./nicegui
+  webAppName: "NiceGuiTest-APP" # set this to your application's name
+  startupCmd: ""
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Setup Python ${{env.pythonVer}}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{env.pythonVer}}
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Building Web app
+      uses: azure/appservice-build@v2
+      with:
+        source-directory: ${{ env.workingDir }}
+        output-directory: /tmp
+
+    - uses: Azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'        
+
+    - name: Deploy Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.webAppName }}
+        package: /tmp
+        startup-command: ${{ env.startupCmd }} 
