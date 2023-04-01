@@ -23,7 +23,6 @@ We're using a github action to automatically run Terraform Docs each time a pull
 | [azurerm_linux_web_app.web_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/linux_web_app) | resource |
 | [azurerm_resource_group.baseRG](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/resource_group) | resource |
 | [azurerm_service_plan.asp](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/service_plan) | resource |
-| [azurerm_storage_account.storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/storage_account) | resource |
 
 ## Inputs
 
