@@ -19,6 +19,7 @@ jobs:
 
     - name: Setup Python ${{env.pythonVer}}
       uses: actions/setup-python@v1
+      working-directory: ${{ env.workingDir }}
       with:
         python-version: ${{env.pythonVer}}
 
