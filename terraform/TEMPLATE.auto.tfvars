@@ -1,1 +1,1 @@
-projectName = "TEMPLATE"
+projectName = "NiceGuiTest"
