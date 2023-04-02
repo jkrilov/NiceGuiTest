@@ -7,7 +7,7 @@ env:
   pythonVer: '3.10'
   workingDir: ./nicegui
   webAppName: 'NiceGuiTest-APP' # set this to your application's name
-  startupCmd: ''
+  startupCmd: 'python app.py'
 
 jobs:
   build-and-deploy:
@@ -48,4 +48,4 @@ jobs:
       with:
         app-name: ${{ env.webAppName }}
         package: ${{ env.workingDir }}
-        #startup-command: ${{ env.startupCmd }} 
+        startup-command: ${{ env.startupCmd }} 
