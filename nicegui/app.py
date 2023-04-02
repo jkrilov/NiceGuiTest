@@ -5,5 +5,5 @@ ui.label('NiceGUI Running on Azure Web App')
 ui.label('Deployed via GitHub Actions')
 
 ui.run(
-  port='80'
+  port='8000' #default port used by Azure Web Apps
 )
