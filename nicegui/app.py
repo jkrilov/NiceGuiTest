@@ -4,4 +4,6 @@ from nicegui import ui
 ui.label('NiceGUI Running on Azure Web App')
 ui.label('Deployed via GitHub Actions')
 
-ui.run()
+ui.run(
+  port='80'
+)
