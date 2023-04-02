@@ -32,7 +32,7 @@ jobs:
       working-directory: ${{env.workingDir}}
 
     - name: Zip the application files
-      run: Compress-Archive .\* app.zip
+      run: zip -r app.zip .
       working-directory: ${{env.workingDir}}
 
     - uses: Azure/login@v1
