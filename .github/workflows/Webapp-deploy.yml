@@ -32,6 +32,8 @@ jobs:
       uses: azure/appservice-build@v2
       with:
         source-directory: ${{ env.workingDir }}
+        platform: 'Python'
+        platform-version: ${{env.pythonVer}}
         #output-directory: /tmp/webapp
 
     - uses: Azure/login@v1
