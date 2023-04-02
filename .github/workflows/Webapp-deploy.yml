@@ -28,13 +28,13 @@ jobs:
         pip install -r requirements.txt
       working-directory: ${{env.workingDir}}
 
-    - name: Building Web app
-      uses: azure/appservice-build@v2
-      with:
-        source-directory: ${{ env.workingDir }}
-        platform: 'Python'
-        platform-version: ${{env.pythonVer}}
-        #output-directory: /tmp/webapp
+    # - name: Building Web app
+    #   uses: azure/appservice-build@v2
+    #   with:
+    #     source-directory: ${{ env.workingDir }}
+    #     platform: 'Python'
+    #     platform-version: ${{env.pythonVer}}
+    #     #output-directory: /tmp/webapp
 
     - uses: Azure/login@v1
       with:
