@@ -17,14 +17,17 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - name: Setup Python ${{env.pythonVer}}
+    - name: Setup Python ${{ env.pythonVer }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{env.pythonVer}}
+        python-version: ${{ env.pythonVer }}
 
     - name: Install Dependencies
       run: |
-        python -m pip install --upgrade pip
+        sudo apt install python${{ env.pythonVer }}-venv
+        python -m venv --copies antenv
+        source antenv/bin/activate
+        pip install setuptools
         pip install -r requirements.txt
       working-directory: ${{env.workingDir}}
 
