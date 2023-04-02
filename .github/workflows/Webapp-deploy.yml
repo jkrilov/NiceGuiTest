@@ -28,6 +28,10 @@ jobs:
         pip install -r requirements.txt
       working-directory: ${{env.workingDir}}
 
+    - name: Zip the application files
+      run: Compress-Archive .\* app.zip
+      working-directory: ${{env.workingDir}}
+
     - uses: Azure/login@v1
       with:
         creds: '{
@@ -41,7 +45,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.webAppName }}
-        package: ${{ env.workingDir }}
+        package: '${{ env.workingDir }}\app.zip'
         startup-command: ${{ env.startupCmd }} 
 
     - name: logout
