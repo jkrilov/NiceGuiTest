@@ -22,14 +22,14 @@ jobs:
       with:
         python-version: ${{ env.pythonVer }}
 
-    - name: Install Dependencies
-      run: |
-        sudo apt install python3-venv
-        python -m venv .env
-        source .env/bin/activate
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      working-directory: ${{env.workingDir}}
+    # - name: Install Dependencies
+    #   run: |
+    #     sudo apt install python3-venv
+    #     python -m venv .env
+    #     source .env/bin/activate
+    #     python -m pip install --upgrade pip
+    #     pip install -r requirements.txt
+    #   working-directory: ${{env.workingDir}}
 
     - name: Building web app
       uses: azure/appservice-build@v3
@@ -38,9 +38,9 @@ jobs:
         platform-version: ${{ env.pythonVer }}
         source-directory: ${{env.workingDir}}
 
-    - name: Zip the application files
-      run: zip -r app.zip .
-      working-directory: ${{env.workingDir}}
+    # - name: Zip the application files
+    #   run: zip -r app.zip .
+    #   working-directory: ${{env.workingDir}}
 
     - uses: Azure/login@v1
       with:
