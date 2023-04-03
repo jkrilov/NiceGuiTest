@@ -60,5 +60,7 @@ jobs:
         resourceGroup: NiceGuiTest
         containerAppEnvironment: NiceGuiTest-ACE
         containerAppName: niceguitest-aca
-        # acrUsername: ${{ steps.acaKeyVault.outputs.aca-user }}
-        # acrPassword: ${{ steps.acaKeyVault.outputs.aca-pass }}
+        targetPort: 8080
+        imageToBuild: ${{ steps.acaKeyVault.outputs.aca-url }}/${{ env.imageName }}:${{ github.sha }}
+        acrUsername: ${{ steps.acaKeyVault.outputs.aca-user }}
+        acrPassword: ${{ steps.acaKeyVault.outputs.aca-pass }}
