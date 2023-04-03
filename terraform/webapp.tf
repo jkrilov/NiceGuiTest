@@ -13,6 +13,7 @@ resource "azurerm_linux_web_app" "web_app" {
   service_plan_id     = azurerm_service_plan.asp.id
 
   app_settings = {
+    SCM_DO_BUILD_DURING_DEPLOYMENT = true
   }
 
   site_config {

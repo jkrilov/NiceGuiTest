@@ -31,12 +31,12 @@ jobs:
     #     pip install -r requirements.txt
     #   working-directory: ${{env.workingDir}}
 
-    - name: Building web app
-      uses: azure/appservice-build@v3
-      with:
-        platform: Python
-        platform-version: ${{ env.pythonVer }}
-        source-directory: ${{env.workingDir}}
+    # - name: Building web app
+    #   uses: azure/appservice-build@v3
+    #   with:
+    #     platform: Python
+    #     platform-version: ${{ env.pythonVer }}
+    #     source-directory: ${{env.workingDir}}
 
     # - name: Zip the application files
     #   run: zip -r app.zip .
