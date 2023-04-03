@@ -38,13 +38,24 @@ jobs:
         secrets: 'ACR-URL, ACR-USER, ACR-PASS'  # comma separated list of secret keys to fetch from key vault 
       id: acaKeyVault # ID for secrets that you will reference
 
-    - uses: azure/docker-login@v1
-      with:
-        login-server: ${{ steps.acaKeyVault.outputs.ACR-URL }}
-        username: ${{ steps.acaKeyVault.outputs.ACR-USER }}
-        password: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
+    # - uses: azure/docker-login@v1
+    #   with:
+    #     login-server: ${{ steps.acaKeyVault.outputs.ACR-URL }}
+    #     username: ${{ steps.acaKeyVault.outputs.ACR-USER }}
+    #     password: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
 
-    - run: |
-        docker build . -t ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
-        docker push ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
-      working-directory: ${{ env.workingDir }}
+    # - run: |
+    #     docker build . -t ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
+    #     docker push ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
+    #   working-directory: ${{ env.workingDir }}
+
+    - name: Build and deploy Container App
+      uses: azure/container-apps-deploy-action@v0
+      with:
+        appSourcePath: ${{ env.workingDir }}
+        acrName: NiceGuiTestACR
+        resourceGroup: NiceGuiTest
+        containerAppEnvironment: NiceGuiTest-ACE
+        containerAppName: NiceGuiTest-ACA
+        acrUsername: ${{ steps.acaKeyVault.outputs.ACR-USER }}
+        acrPassword: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
