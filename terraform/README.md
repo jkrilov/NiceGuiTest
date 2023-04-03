@@ -20,9 +20,15 @@ We're using a github action to automatically run Terraform Docs each time a pull
 
 | Name | Type |
 |------|------|
-| [azurerm_linux_web_app.web_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/linux_web_app) | resource |
+| [azurerm_container_app_environment.nicegui](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/container_app_environment) | resource |
+| [azurerm_container_registry.nicegui](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/container_registry) | resource |
+| [azurerm_key_vault.nicegui](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/key_vault) | resource |
+| [azurerm_key_vault_secret.ACR-PASS](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.ACR-URL](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_key_vault_secret.ACR-USER](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_log_analytics_workspace.nicegui](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_resource_group.baseRG](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/resource_group) | resource |
-| [azurerm_service_plan.asp](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/service_plan) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
