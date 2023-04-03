@@ -1,10 +1,14 @@
 """Test NiceGUI in Azure Web App."""
-from nicegui import ui
+from nicegui import app, ui
 
+app.add_static_files('/images', 'images')
 ui.label('NiceGUI Running on Azure Container Apps')
 ui.label('Deployed via GitHub Actions')
 with ui.row():
-	ui.icon('link').classes('text-2xl')
+	ui.avatar('img:./images/github.png', size='md', font_size='32px', color='White')
 	ui.link('Joey40/NiceGuiTest', 'https://github.com/Joey40/NiceGuiTest')
 
-ui.run()
+ui.run(
+    title='NiceGUI ACA Test',
+    favicon='./images/favicon.ico'
+)
