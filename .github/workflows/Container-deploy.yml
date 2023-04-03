@@ -38,7 +38,7 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1
       with:
         keyvault: "NiceGuiTest-KV" # name of key vault in Azure portal
-        secrets: 'ACR-URL, ACR-USER, ACR-PASS'  # comma separated list of secret keys to fetch from key vault 
+        secrets: 'aca-url, aca-user, aca-pass'  # comma separated list of secret keys to fetch from key vault 
       id: acaKeyVault # ID for secrets that you will reference
 
     # - uses: azure/docker-login@v1
@@ -60,5 +60,5 @@ jobs:
         resourceGroup: NiceGuiTest
         containerAppEnvironment: NiceGuiTest-ACE
         containerAppName: niceguitest-aca
-        acrUsername: ${{ steps.acaKeyVault.outputs.ACR-USER }}
-        acrPassword: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
+        # acrUsername: ${{ steps.acaKeyVault.outputs.aca-user }}
+        # acrPassword: ${{ steps.acaKeyVault.outputs.aca-pass }}
