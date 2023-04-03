@@ -44,12 +44,12 @@ jobs:
     - uses: azure/docker-login@v1
       with:
         login-server: ${{ steps.acaKeyVault.outputs.ACR-URL }}
-        username: ${{ steps.acaKeyVault.outputs.ACR-USER }}
-        password: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
+        username: ${{ steps.acaKeyVault.outputs.aca-user }}
+        password: ${{ steps.acaKeyVault.outputs.aca-pass }}
 
     - run: |
-        docker build . -t ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
-        docker push ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
+        docker build . -t ${{ steps.acaKeyVault.outputs.aca-url }}/${{ env.imageName }}:${{ github.sha }}
+        docker push ${{ steps.acaKeyVault.outputs.aca-url }}/${{ env.imageName }}:${{ github.sha }}
       working-directory: ${{ env.workingDir }}
 
     - name: Build and deploy Container App
