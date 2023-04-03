@@ -4,7 +4,7 @@ on:
     - main
 
 env:
-  workingDir: './nicegui'
+  workingDir: '${{ github.workspace }}/nicegui'
   imageName: 'niceguitest'
 
 jobs:
