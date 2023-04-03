@@ -1,6 +1,6 @@
 FROM zauberzeug/nicegui:latest
 
-COPY main.py ./ 
+COPY app.py ./ 
 
 EXPOSE 8080
 

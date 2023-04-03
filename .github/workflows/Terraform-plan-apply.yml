@@ -4,9 +4,15 @@ on:
   push:
     branches:
     - main
+    paths:
+    - 'terraform/**'
+    - '.github/workflows/Terraform-plan-apply.yml'
   pull_request:
     branches:
     - '*'
+    paths:
+    - 'terraform/**'
+    - '.github/workflows/Terraform-plan-apply.yml'
 
 #These environment variables are used by the terraform azure provider
 env:

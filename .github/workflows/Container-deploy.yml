@@ -2,6 +2,9 @@ on:
   push:
     branches:
     - main
+    paths:
+    - 'nicegui/**'
+    - '.github/workflows/Container-deploy.yml'
 
 env:
   workingDir: './nicegui'
