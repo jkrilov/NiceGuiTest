@@ -1,0 +1,42 @@
+on:
+  push:
+    branches:
+    - main
+
+env:
+  workingDir: './nicegui'
+  imageName: 'NiceGuiTest'
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - uses: Azure/login@v1
+      with:
+        creds: '{
+                  "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
+                  "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
+                  "subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+                  "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
+                }'
+
+    - uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: "NiceGuiTest-KV" # name of key vault in Azure portal
+        secrets: 'ACR-URL, ACR-USER, ACR-PASS'  # comma separated list of secret keys to fetch from key vault 
+      id: acaKeyVault # ID for secrets that you will reference
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ steps.acaKeyVault.outputs.ACR-URL }}
+        username: ${{ steps.acaKeyVault.outputs.ACR-USER }}
+        password: ${{ steps.acaKeyVault.outputs.ACR-PASS }}
+
+    - run: |
+        docker build . -t ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
+        docker push ${{ steps.acaKeyVault.outputs.ACR-URL }}/${{ env.imageName }}:${{ github.sha }}
+      working-directory: ${{ env.workingDir }}
