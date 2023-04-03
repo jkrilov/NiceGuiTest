@@ -43,7 +43,7 @@ jobs:
 
     - uses: azure/docker-login@v1
       with:
-        login-server: ${{ steps.acaKeyVault.outputs.ACR-URL }}
+        login-server: ${{ steps.acaKeyVault.outputs.aca-url }}
         username: ${{ steps.acaKeyVault.outputs.aca-user }}
         password: ${{ steps.acaKeyVault.outputs.aca-pass }}
 
