@@ -24,20 +24,20 @@ resource "azurerm_key_vault" "nicegui" {
   }
 }
 
-resource "azurerm_key_vault_secret" "ACR-URL" {
-  name         = "ACR-URL"
+resource "azurerm_key_vault_secret" "aca-url" {
+  name         = "aca-url"
   value        = azurerm_container_registry.nicegui.login_server
   key_vault_id = azurerm_key_vault.nicegui.id
 }
 
-resource "azurerm_key_vault_secret" "ACR-USER" {
-  name         = "ACR-USER"
+resource "azurerm_key_vault_secret" "aca-user" {
+  name         = "aca-user"
   value        = azurerm_container_registry.nicegui.admin_username
   key_vault_id = azurerm_key_vault.nicegui.id
 }
 
-resource "azurerm_key_vault_secret" "ACR-PASS" {
-  name         = "ACR-PASS"
+resource "azurerm_key_vault_secret" "aca-pass" {
+  name         = "aca-pass"
   value        = azurerm_container_registry.nicegui.admin_password
   key_vault_id = azurerm_key_vault.nicegui.id
 }
