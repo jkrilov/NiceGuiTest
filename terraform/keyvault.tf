@@ -17,7 +17,8 @@ resource "azurerm_key_vault" "nicegui" {
     secret_permissions = [
       "Get",
       "List",
-      "Set"
+      "Set",
+      "Delete"
     ]
 
   }
