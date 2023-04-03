@@ -30,13 +30,13 @@ resource "azurerm_key_vault_secret" "ACR-URL" {
 }
 
 resource "azurerm_key_vault_secret" "ACR-USER" {
-  name         = "ACR-URL"
+  name         = "ACR-USER"
   value        = azurerm_container_registry.nicegui.admin_username
   key_vault_id = azurerm_key_vault.nicegui.id
 }
 
 resource "azurerm_key_vault_secret" "ACR-PASS" {
-  name         = "ACR-URL"
+  name         = "ACR-PASS"
   value        = azurerm_container_registry.nicegui.admin_password
   key_vault_id = azurerm_key_vault.nicegui.id
 }
