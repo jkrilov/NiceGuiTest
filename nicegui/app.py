@@ -2,7 +2,7 @@
 from nicegui import app, ui
 
 app.add_static_files('/images', 'images')
-ui.label('NiceGUI Running on Azure Container Apps')
+ui.label('NiceGUI example running on Azure Container Apps')
 ui.label('Deployed via GitHub Actions')
 with ui.row():
 	ui.avatar('img:./images/github.png', size='md', font_size='32px', color='White')
