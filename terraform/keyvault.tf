@@ -18,7 +18,8 @@ resource "azurerm_key_vault" "nicegui" {
       "Get",
       "List",
       "Set",
-      "Delete"
+      "Delete",
+      "Purge"
     ]
 
   }
