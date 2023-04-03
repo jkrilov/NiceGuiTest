@@ -5,7 +5,7 @@ on:
 
 env:
   workingDir: './nicegui'
-  imageName: 'NiceGuiTest'
+  imageName: 'niceguitest'
 
 jobs:
   build-and-deploy:
