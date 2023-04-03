@@ -8,7 +8,7 @@ resource "azurerm_log_analytics_workspace" "nicegui" {
 }
 
 resource "azurerm_container_registry" "nicegui" {
-  name                = "${var.projectName}-ACR"
+  name                = "${var.projectName}ACR"
   resource_group_name = azurerm_resource_group.baseRG.name
   location            = azurerm_resource_group.baseRG.location
   sku                 = "Basic"
