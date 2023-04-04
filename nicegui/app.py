@@ -1,7 +1,7 @@
 """Test NiceGUI in Azure Web App."""
 from nicegui import app, ui
 
-#app.add_static_files('/images', 'images')
+app.add_static_files('/images', 'images')
 ui.label('NiceGUI example running on Azure Container Apps')
 ui.label('Deployed via GitHub Actions')
 with ui.row():
