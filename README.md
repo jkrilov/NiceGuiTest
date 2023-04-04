@@ -33,7 +33,7 @@ This is the core worklfow which actually applies the IaC (Infrastructure as Code
 1) **Terraform Init**
 1) **Terraform Plan**
 1) **PR Comment Script** - This step runs a custom bash script based on a script [provided by Hashicorp](https://developer.hashicorp.com/terraform/tutorials/automation/github-actions).  The script takes the output from the previous steps including the full Terraform Plan output and submits them as a comment on the PR for easy review.
-1) **Terraform Apply** - Once the PR has been merged into the main branch (or upon any commit directly to the main branch) the final action is to run Terraform Apply. This step will only run if the Terraform Apply step was successful. 
+1) **Terraform Apply** - Once the PR has been merged into the main branch (or upon any commit directly to the main branch) the final action is to run Terraform Apply. This step will only run if the Terraform Plan step was successful. 
 
 ## Terraform Docs
 
