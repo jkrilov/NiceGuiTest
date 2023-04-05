@@ -7,8 +7,10 @@ ui.label('Deployed via GitHub Actions')
 with ui.row():
 	ui.avatar('img:./images/github.png', size='md', font_size='24px', color='White')
 	ui.link('Joey40/NiceGuiTest', 'https://github.com/Joey40/NiceGuiTest')
-with ui.button('Click me!', on_click=lambda: badge.set_text(int(badge.text) + 1)):
-    badge = ui.badge('0', color='red').props('floating')
+with ui.row():
+    with ui.button('Click me!', on_click=lambda: badge.set_text(int(badge.text) + 1)):
+        badge = ui.badge('0', color='red').props('floating')
+    ui.button('Reset', on_click=lambda: badge.set_text('0'))
 
 ui.run(
     title='NiceGUI ACA Test',
