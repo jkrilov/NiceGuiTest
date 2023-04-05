@@ -1,5 +1,6 @@
 """Test NiceGUI in Azure Web App."""
 from nicegui import app, ui
+import theme
 
 app.add_static_files('/images', 'images')
 
