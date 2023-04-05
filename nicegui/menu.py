@@ -2,4 +2,6 @@ from nicegui import ui
 
 
 def menu() -> None:
-    ui.link('Home', '/').classes(replace='text-white')
+    with ui.button(on_click=lambda: menu.open()).props('icon=menu'):
+        with ui.menu() as menu:
+            ui.link('Home', '/').classes(replace='text-white')
