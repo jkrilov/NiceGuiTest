@@ -1,6 +1,6 @@
 FROM zauberzeug/nicegui:latest
 
-COPY app.py ./
+COPY *.py ./
 ADD images ./images
 
 EXPOSE 8080
