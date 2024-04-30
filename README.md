@@ -21,7 +21,7 @@ This workflow installs Terraform and then runs `terraform destory`. This is help
 
 ### Terraform-docs.yml
 
-This workflow used a pre-built action to run [Terraform Docs](https://github.com/terraform-docs/gh-actions). There is a config file located in the _./terraform_ directory which allows for customization.  This action also supports more advanced configurations such as nested modules and Atlantis files. This workflow runs on any pull request and ensures that documentation markdown is generated before merging the pull request. 
+This workflow uses a pre-built action to run [Terraform Docs](https://github.com/terraform-docs/gh-actions). There is a config file located in the _./terraform_ directory which allows for customization.  This action also supports more advanced configurations such as nested modules and Atlantis files. This workflow runs on any pull request and ensures that documentation markdown is generated before merging the pull request. 
 
 ### Terraform-plan-apply.yml
 
