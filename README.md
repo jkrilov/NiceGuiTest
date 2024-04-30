@@ -1,6 +1,6 @@
 # NiceGUI Test
 
-Testting the NiceGUI for Python.  Running on an Azure Web App deployed with GitHub Actions.
+Testing the NiceGUI for Python.  Running on an Azure Web App deployed with GitHub Actions.
 
 ## Azure Integration
 
